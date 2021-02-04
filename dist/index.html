@@ -32,20 +32,55 @@
             <div class="row">
                 <div class="col-xl-9 mx-auto">
                     <h1 class="mb-5" style="margin: 0;margin-bottom: 0;padding: 0;">Pagemail - Read it later, straight to your inbox.</h1>
-                    <title>Pagemail</title>
                     <p style="color: var(--white);">Never lose a webpage again</p>
                 </div>
                 <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
-                    <form>
+                    <!-- <form>
                         <div class="form-row">
                             <div class="col-12 col-md-9 mb-2 mb-md-0"><input class="form-control form-control-lg" type="email" placeholder="Enter your email..."></div>
-                            <div class="col-12 col-md-3"><button class="btn btn-primary btn-block btn-lg" type="submit">Sign up!</button></div>
+                            <div class="col-12 col-md-3">
+                                <button class="btn btn-primary btn-block btn-lg" type="button" data-toggle="modal" data-target="#signupModal">Sign up!</button>
+                            </div>
                         </div>
-                    </form>
+                    </form> -->
+                    <div class="col-3 col-md-3 mx-auto">
+                        <button class="btn btn-primary btn-block btn-lg" type="button" data-toggle="modal" data-target="#signupModal">Sign up!</button>
+                    </div>
                 </div>
             </div>
         </div>
     </header>
+    <div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="SignupModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header border-bottom-0">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="form-title text-center">
+                <h4>Sign up!</h4>
+              </div>
+              <div class="d-flex flex-column text-center">
+                <form id='login-form'>
+                  <div class="form-group">
+                    <input type="name" class="form-control" id="name-signup"placeholder="Your name">
+                  </div>
+                  <div class="form-group">
+                    <input type="email" class="form-control" id="email-signup"placeholder="Your email address">
+                  </div>
+                  <div class="form-group">
+                    <input type="password" class="form-control" id="password-signup" placeholder="Choose a password">
+                  </div>
+                  <button type="button" class="btn btn-primary btn-block btn-round" onclick="alert(signup_user())">Sign up</button>
+
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     <section class="features-icons bg-light text-center">
         <div class="container">
             <div class="row">
@@ -99,6 +134,7 @@
             </div>
         </div>
     </footer>
+    <script src="js/script.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.3/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/bs-init.js"></script>
