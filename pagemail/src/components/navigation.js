@@ -1,6 +1,6 @@
 import { Navbar, Nav } from 'react-bootstrap';
 
-export function Navigation(props) {
+export function Navigation() {
     return (
     <>
         <Navbar bg="primary" variant="dark">
