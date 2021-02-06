@@ -17,7 +17,6 @@ function App() {
   // }, [prefillEmail])
 
   async function POSTApi(body) {
-    console.log("Posting.")
     const response = fetch(
       // Replace url with variable from environment.
       API_ROOT + "/user/register", {
