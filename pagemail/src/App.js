@@ -1,6 +1,6 @@
 import './App.css';
 import { useEffect, useState } from 'react';
-import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, HashRouter, Redirect, Route, Switch } from 'react-router-dom';
 import { Navigation } from './components/navigation.js';
 import { LoginPage } from './components/login';
 import { SignUp } from './components/signup';
@@ -95,7 +95,7 @@ function App() {
         onClose={() => setFailure('')}
         dismissible
         transition>{failure}</Alert>
-      <BrowserRouter>
+      <HashRouter>
       {redirect ? <Redirect to={redirect} /> : null}
         <Switch>
           <Route path="/login">
@@ -139,7 +139,7 @@ function App() {
             <h1>Home</h1>
           </Route>
         </Switch>
-      </BrowserRouter>
+      </HashRouter>
       <Footer />
     </div>
   );
