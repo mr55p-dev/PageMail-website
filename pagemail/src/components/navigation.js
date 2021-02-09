@@ -10,8 +10,8 @@ export function Navigation(props) {
             <Nav className="mr-auto">
               <Nav.Link>About</Nav.Link>
               { props.loggedIn ? <>
-              <Nav.Link href="/pages">Pages</Nav.Link>
-              <Nav.Link href="/token">Token</Nav.Link> </> : <></> }
+              <Nav.Link href="#/pages">Pages</Nav.Link>
+              <Nav.Link href="#/token">Token</Nav.Link> </> : <></> }
             </Nav>
           </Navbar.Collapse>
           <Nav>{ props.loggedIn
