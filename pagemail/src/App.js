@@ -5,13 +5,21 @@ import { Navigation } from './components/navigation.js';
 import { LoginPage } from './components/login';
 import { SignUp } from './components/signup';
 import { SavedPageView } from './components/pages';
-import { Button } from 'react-bootstrap';
+import { UserView } from './components/user';
+import { Alert, Button } from 'react-bootstrap';
 
 function App() {
   const [accessToken, setAccessToken] = useState(null);
   const [loggedIn, setLoggedIn] = useState(localStorage.getItem('login_token') ? true : false);
   const [redirect, setRedirect] = useState(null);
+  const [prefillEmail, setPrefillEmail] = useState('');
+  const [failure, setFailure] = useState('');
   const API_ROOT = process.env.REACT_APP_API_ROOT;
+
+  // Set up a global "loading" property and have all the "setLoading" logic and try catch blocks in
+  // an application level function cause typing this out is too hard...
+
+
 
   // Listen for a saved API key - to make sure the state is always correct.
   useEffect(() => {
@@ -19,15 +27,10 @@ function App() {
       if (localStorage.getItem('login_token')) {
         setLoggedIn(true);
         setAccessToken(localStorage.getItem('login_token'));
-        console.debug("STATE:")
-        console.debug(loggedIn);
-        console.debug(accessToken);
       } else {
         setLoggedIn(false);
         setAccessToken(null);
-        console.debug("STATE:")
-        console.debug(loggedIn);
-        console.debug(accessToken);
+        localStorage.removeItem('username')
       }
     })
   })
@@ -35,7 +38,17 @@ function App() {
   // Clean up after a signout event
   const signOut = () => {
     localStorage.removeItem('login_token');
-    setRedirect('/')
+    setLoggedIn(false);
+    setRedirect('/');
+  }
+
+  function handleError(response) {
+    if (!response.ok) {
+      // console.log("THROWING ERROR")
+      throw Error(response.text)
+    } else {
+      return response
+    }
   }
 
   // API post method
@@ -56,8 +69,12 @@ function App() {
         body: body
       }
     )
+    .then(handleError)
     .then(response => response.json())
-    .catch(error => console.log(error))
+    .catch(error => {
+      console.log("CAUGHT ERROR")
+      setFailure('Something went wrong connecting to our servers, please try again.')
+    })
     return response
   }
 
@@ -68,23 +85,31 @@ function App() {
   // Proabbly less memory intensive and a drop in replacment.
   // const accessToken = () => {localStorage.getItem('login_token')}
 
+  useEffect(() => {
+    console.log(failure)
+  }, [])
+
   return (
     <div className="App">
-      <Navigation />
+      <Navigation loggedIn={loggedIn} />
       <BrowserRouter>
       {redirect ? <Redirect to={redirect} /> : null}
         <Switch>
           <Route path="/login">
             <h1>Log in</h1>
-            {loggedIn ? <p>You are already logged in.</p> : <LoginPage loginCall={POSTToAPI} redirect={setRedirect} loginStatus={setLoggedIn} />}
+            {loggedIn ? <p>You are already logged in.</p> : <LoginPage loginCall={POSTToAPI} redirect={setRedirect} loginStatus={setLoggedIn} prefillEmail={setPrefillEmail} />}
           </Route>
           <Route path="/signup">
             <h1>Sign up</h1>
-            {loggedIn ? <p>You are already logged in.</p> : <SignUp signupCall={POSTToAPI} redirect={setRedirect} loginStatus={setLoggedIn} />}
+            {loggedIn ? <p>You are already logged in.</p> : <SignUp signupCall={POSTToAPI} redirect={setRedirect} loginStatus={setLoggedIn} prefillEmail={prefillEmail} />}
           </Route>
-          <Route path="/user">
+          <Route path="/pages">
             <h1>User Pages</h1>
             {loggedIn ? <SavedPageView pageCall={POSTToAPI} /> : <p>Not logged in</p>}
+          </Route>
+          <Route path="/user">
+            <h1>User information</h1>
+            {loggedIn ? <UserView profileCall={POSTToAPI} /> : <p>Not logged in.</p>}
           </Route>
           <Route path="/token">
             <h1>Token:</h1>
@@ -99,6 +124,7 @@ function App() {
           </Route>
         </Switch>
       </BrowserRouter>
+      <Alert show={(failure !== '')} variant="warning" onClose={() => setFailure('')} dismissible transition>{failure}</Alert>
     </div>
   );
 }
