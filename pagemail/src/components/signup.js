@@ -19,7 +19,7 @@ const submitForm = async (event) => {
     }
   }
 
-  const handleLogin = () => {props.redirect('#/login')}
+  const handleLogin = () => {props.redirect('/login')}
 
   return (
     <>

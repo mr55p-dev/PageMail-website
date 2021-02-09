@@ -10,7 +10,7 @@ function Page(props) {
                     <Card.Title className="text-center">{props.title}</Card.Title>
                     <Card.Text>
                         Page summary will be included here soon.
-                        <Row>
+                        <Row className="d-flex align-items-stretch">
                             <Col xl={4} sm={12} className="mt-1">
                                 <Button block variant="warning" onClick={() => {}}>Delete</Button>
                             </Col>
