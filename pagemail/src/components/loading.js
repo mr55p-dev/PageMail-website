@@ -9,7 +9,7 @@ export function LoadingButton(props) {
         onClick={props.reloadCallback}>
             {props.loading
             ? <><Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true"/> Loading</>
-            : props.buttonText}
+            : (props.buttonText) ? props.buttonText : "Reload"}
         </Button>
         </>
     )

@@ -1,44 +1,47 @@
 import { useEffect, useState } from "react"
-import { Button, Spinner } from "react-bootstrap";
+import { Container, Form, Row, Col } from "react-bootstrap";
 import { LoadingButton } from './loading';
 
 export function UserView(props) {
     const [userInfo, setUserInfo] = useState(null);
-    const [loading, setLoading] = useState(false);
-
-    function sleep(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-      }
 
     const loadInformation = () => {
-        setLoading(true);
         const fetchProfile = async () => {
             const response = await props.profileCall("GET", "/user/self", true, null)
-            await sleep(1000)
-            setLoading(false)
-            setUserInfo(response)
+            setUserInfo(response ? response : null)
         }
+        fetchProfile()
 
-        try {
-            fetchProfile()
-        } catch {
-            console.log("The request failed.")
-        }
     }
     useEffect(() => {
         loadInformation()
     }, [])
+    
     return (
         <>
-        <LoadingButton loading={loading} reloadCallback={loadInformation} buttonText="Retry" />
-            {userInfo
-            ? <>
-                <p>ID: {userInfo.id}</p>
-                <p>Name: {userInfo.name}</p>
-                <p>Email: {userInfo.email}</p>
-                <p>Date Added: {userInfo.date_added}</p>
-            </>
-            : <></>}
+        <Container fluid>
+            <Row>
+                <Col xl={4} md={8} xs={12} className="mx-auto">
+                    <Container color="primary" className="form-container bg-active">
+                        <Form id="infoForm">
+                            <Form.Group as={Row} controlId="formBasicEmail" name="infoName" id="signup_email">
+                                <Form.Label column sm={2}>Name</Form.Label>
+                                <Col sm={10}>
+                                    <Form.Control type="text" readOnly={true} defaultValue={userInfo ? userInfo.name : ""} />
+                                </Col>
+                            </Form.Group>
+                            <Form.Group as={Row} controlId="formBasicEmail" name="infoEmail" id="signup_email">
+                                <Form.Label column sm={2}>Email address</Form.Label>
+                                <Col sm={10}>
+                                    <Form.Control type="email" readOnly defaultValue={userInfo ? userInfo.email : ""} />
+                                </Col>
+                            </Form.Group>
+                        <LoadingButton loading={props.loading} reloadCallback={loadInformation} />
+                        </Form>
+                    </Container>
+                </Col>
+            </Row>
+        </Container>
         </>
     )
 }

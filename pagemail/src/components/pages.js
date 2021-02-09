@@ -1,19 +1,38 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
+import { Button, Card, CardDeck, Container, Row, Col } from 'react-bootstrap';
 import { LoadingButton } from "./loading";
 
 function Page(props) {
     return (
-        <>
-            <h1>{props.title}</h1>
-            <p>{props.body}</p>
-            <br/>
-        </>
-    )
-} 
+        <Col xl={3} md={6} xs={12} className="my-2">
+            <Card>
+                <Card.Body>
+                    <Card.Title className="text-center">{props.title}</Card.Title>
+                    <Card.Text>
+                        Page summary will be included here soon.
+                        <Row>
+                            <Col xl={4} sm={12} className="mt-1">
+                                <Button block variant="warning" onClick={() => {}}>Delete</Button>
+                            </Col>
+                            <Col xl={4} sm={12} className="mt-1">
+                                <Button block variant="info" onClick={() => {}}>Mark Read</Button>
+                            </Col>
+                            <Col xl={4} sm={12} className="mt-1">
+                                <Button block variant="primary" onClick={() => window.open(props.url)}>Open</Button>
+                            </Col>
+                        </Row>
+                    </Card.Text>
+                </Card.Body>
+                <Card.Footer>
+                    <small>Added at {props.date}</small>
+                </Card.Footer>
+            </Card>
+        </Col>
+        )
+}
 
 export function SavedPageView(props) {
     const [pages, setPages] = useState([]);
-
     const loadPages = () => {
         const fetchedPages = async () => {
             const response = await props.pageCall("GET", "/page/mypages", true, null);
@@ -25,12 +44,18 @@ export function SavedPageView(props) {
     useEffect(() => {
         loadPages()
     }, [])
+
     return (
         <>
-            <LoadingButton loading={props.loading} reloadCallback={loadPages} buttonText="Retry" />
+        <Container fluid className="cardDeckContainer mx-auto">
+            <Row>
             {(pages !== [])
-            ? pages.map(item => (<Page title={item.page_url} body={item.page_url} key={item.id} />))
-                : <p>Pages is null.</p>}
+            ? pages.map(item => (<Page title={item.page_url} url={item.page_url} date={item.date_added} key={item.id} />))
+            : <p>Loading.</p>}
+            </Row>
+            <LoadingButton loading={props.loading} reloadCallback={loadPages} />
+        </Container>
+
         </>
     )
 }

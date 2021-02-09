@@ -4,9 +4,10 @@ export function LoginPage(props) {
     const submitForm = async (event) => {
         event.preventDefault();
         // Construct form
+        console.log(event)
         const form = new URLSearchParams()
-        form.append("username", event.target[0].value)
-        form.append("password", event.target[1].value)
+        form.append("username", event.target.form[0].value)
+        form.append("password", event.target.form[1].value)
         // Fetch and store the token
         const data = await props.loginCall('POST', '/user/token', false, form);
         if (data) {
@@ -47,6 +48,7 @@ export function LoginPage(props) {
                                 block
                                 variant="primary"
                                 type="submit"
+                                onClick={submitForm}
                                 disabled={props.loading}>
     {props.loading
     ? <><Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true"/> Loading</>
