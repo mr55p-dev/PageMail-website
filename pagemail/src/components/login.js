@@ -13,14 +13,14 @@ export function LoginPage(props) {
         if (data) {
             localStorage.setItem("login_token", data.access_token);
             props.loginStatus(true);
-            props.redirect('/pages')
+            props.redirect('#/pages')
         }
     }
 
     const handleSignup = (e) => {
         e.preventDefault()
         props.prefillEmail(e.target.form[0].value)
-        props.redirect('/signup')
+        props.redirect('#/signup')
     }
 
     return (

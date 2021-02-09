@@ -15,11 +15,11 @@ const submitForm = async (event) => {
     if (data) {
       localStorage.setItem('login_token', data.token.access_token);
       props.loginStatus(true);
-      props.redirect('/pages')
+      props.redirect('/user')
     }
   }
 
-  const handleLogin = () => {props.redirect('/login')}
+  const handleLogin = () => {props.redirect('#/login')}
 
   return (
     <>
