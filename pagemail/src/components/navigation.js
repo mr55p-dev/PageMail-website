@@ -16,11 +16,11 @@ export function Navigation(props) {
           </Navbar.Collapse>
           <Nav>{ props.loggedIn
             ? <>
-            <Nav.Link href="/user" className="mr-2">Profile</Nav.Link>
-            <Nav.Link href="/signout" className="mr-2">Sign out</Nav.Link> </>
+            <Nav.Link href="#/user" className="mr-2">Profile</Nav.Link>
+            <Nav.Link href="#/signout" className="mr-2">Sign out</Nav.Link> </>
             : <>
-            <Nav.Link href="/signup">Sign up!</Nav.Link>
-            <Nav.Link href="/login">Log in</Nav.Link> </> }
+            <Nav.Link href="#/signup">Sign up!</Nav.Link>
+            <Nav.Link href="#/login">Log in</Nav.Link> </> }
           </Nav>
         </Navbar>
     </>
