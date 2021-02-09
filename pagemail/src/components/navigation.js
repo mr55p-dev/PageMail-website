@@ -9,8 +9,9 @@ export function Navigation(props) {
           <Navbar.Collapse id="navbar-nav mr-auto">
             <Nav className="mr-auto">
               <Nav.Link>About</Nav.Link>
-              { props.loggedIn ? <>
+              { props.loggedIn ?
               <Nav.Link href="#/pages">Pages</Nav.Link>
+              : <></>}
             </Nav>
           </Navbar.Collapse>
           <Nav>{ props.loggedIn
