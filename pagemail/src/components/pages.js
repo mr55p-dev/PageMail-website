@@ -4,13 +4,13 @@ import { LoadingButton } from "./loading";
 
 function Page(props) {
     return (
-        <Col xl={3} md={6} xs={12} className="my-2">
+        <Col xl={3} md={6} xs={12} className="my-2 d-flex">
             <Card>
-                <Card.Body>
+                <Card.Body className="flex-fill">
                     <Card.Title className="text-center">{props.title}</Card.Title>
                     <Card.Text>
                         Page summary will be included here soon.
-                        <Row className="d-flex align-items-stretch">
+                        <Row>
                             <Col xl={4} sm={12} className="mt-1">
                                 <Button block variant="warning" onClick={() => {}}>Delete</Button>
                             </Col>
