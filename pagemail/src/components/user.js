@@ -30,7 +30,7 @@ export function UserView(props) {
     }, [])
     return (
         <>
-        <LoadingButton loading={loading} reloadCallback={loadInformation} />
+        <LoadingButton loading={loading} reloadCallback={loadInformation} buttonText="Retry" />
             {userInfo
             ? <>
                 <p>ID: {userInfo.id}</p>
@@ -38,7 +38,7 @@ export function UserView(props) {
                 <p>Email: {userInfo.email}</p>
                 <p>Date Added: {userInfo.date_added}</p>
             </>
-            : <p>Loading</p>}
+            : <></>}
         </>
     )
 }

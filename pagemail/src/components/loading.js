@@ -8,10 +8,10 @@ export function LoadingButton(props) {
         disabled={props.loading}
         onClick={props.reloadCallback}>
             {props.loading
-            ? <><Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true"/><p>Loading</p></>
-            : "Retry"}
+            ? <><Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true"/> Loading</>
+            : props.buttonText}
         </Button>
-        <p>Loading: {props.loading}</p>
         </>
     )
 }
+

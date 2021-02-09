@@ -1,28 +1,21 @@
-import { Button, Form, Container, Row, Col } from 'react-bootstrap';
+import { Button, Form, Container, Row, Col, Spinner } from 'react-bootstrap';
 
 export function SignUp(props) {
 
 const submitForm = async (event) => {
   event.preventDefault();
-  //
+  // Construct the form
   const form = new URLSearchParams()
   form.append("email", event.target[0].value)
   form.append("name", event.target[1].value)
   form.append("password", event.target[2].value)
 
   // Register the user
-  try {
     const data = await props.signupCall("POST", "/user/register", false, form);
-    if (data.token.access_token) {
+    if (data) {
       localStorage.setItem('login_token', data.token.access_token);
       props.loginStatus(true);
       props.redirect('/pages')
-    } else {
-      alert('Something went wrong!');
-      console.log(data)
-    }
-  } catch {
-      alert('request failed.')
     }
   }
 
@@ -54,8 +47,14 @@ const submitForm = async (event) => {
                       <Button block variant="secondary" type="button" onClick={handleLogin}>Log in</Button>
                     </Col>
                     <Col sm={12} xl={6}>
-                      <Button block variant="primary" type="submit">Sign up</Button>
-                    </Col>
+                    <Button
+                                block
+                                variant="primary"
+                                type="submit"
+                                disabled={props.loading}>
+    {props.loading
+    ? <><Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true"/> Loading</>
+    : "Sign Up"}</Button>                    </Col>
                   </Row>
                 </Form>
 
