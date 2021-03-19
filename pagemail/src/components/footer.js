@@ -3,7 +3,7 @@ export const Footer = () => {
     <footer className="footer bg-light">
         <div className="container-fluid mx-auto mt-4">
             <div className="row">
-                <div className="col-12 my-auto h-100 text-center"><a href="#"></a>
+                <div className="col-12 my-auto h-100 text-center">
                     <ul className="list-inline mb-2">
                         {/* <!-- <li className="list-inline-item"><a href="#">About</a></li>
                         <li className="list-inline-item"><span>⋅</span></li>

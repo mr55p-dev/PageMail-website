@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { Button, Card, CardDeck, Container, Row, Col } from 'react-bootstrap';
+import { useCallback, useEffect, useState } from "react";
+import { Button, Card, Container, Row, Col } from 'react-bootstrap';
 import { LoadingButton } from "./loading";
 
 function Page(props) {
@@ -9,8 +9,8 @@ function Page(props) {
                 <Card.Body className="flex-fill">
                     <Card.Title className="text-center">{props.title}</Card.Title>
                     <Card.Text>
-                        Page summary will be included here soon.
-                        <Row>
+                        {props.description}
+                        <Row className="my-auto">
                             <Col xl={4} sm={12} className="mt-1">
                                 <Button block variant="warning" onClick={() => {}}>Delete</Button>
                             </Col>
@@ -32,26 +32,27 @@ function Page(props) {
 }
 
 export function SavedPageView(props) {
+    const pageCall = props.pageCall;
     const [pages, setPages] = useState([]);
-    const loadPages = () => {
+    const loadPages = useCallback(() => {
         const fetchedPages = async () => {
-            const response = await props.pageCall("GET", "/page/mypages", true, null);
+            const response = await pageCall("GET", "/page/mypages", true, null);
             setPages(response ? response : [])
         }
         fetchedPages();
-    }
+    }, [])
 
     useEffect(() => {
         loadPages()
-    }, [])
+    }, [loadPages])
 
     return (
         <>
         <Container fluid className="cardDeckContainer mx-auto">
             <Row>
             {(pages !== [])
-            ? pages.map(item => (<Page title={item.page_url} url={item.page_url} date={item.date_added} key={item.id} />))
-            : <p>Loading.</p>}
+            ? pages.map(item => (<Page title={item.title} url={item.page_url} date={item.date_added} description={item.description} key={item.id} />))
+            : null}
             </Row>
             <LoadingButton loading={props.loading} reloadCallback={loadPages} />
         </Container>

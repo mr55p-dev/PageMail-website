@@ -1,5 +1,5 @@
 import './App.css';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { HashRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 import { Navigation } from './components/navigation.js';
 import { LoginPage } from './components/login';
@@ -10,7 +10,7 @@ import { Footer } from './components/footer';
 import { Alert, Button } from 'react-bootstrap';
 
 function App() {
-  const [accessToken, setAccessToken] = useState(null);
+  // const [accessToken, setAccessToken] = useState(null);
   const [loggedIn, setLoggedIn] = useState(localStorage.getItem('login_token') ? true : false);
   const [redirect, setRedirect] = useState(null);
   const [prefillEmail, setPrefillEmail] = useState('');
@@ -30,10 +30,10 @@ function App() {
     window.addEventListener("storage", () => {
       if (localStorage.getItem('login_token')) {
         setLoggedIn(true);
-        setAccessToken(localStorage.getItem('login_token'));
+        // setAccessToken(localStorage.getItem('login_token'));
       } else {
         setLoggedIn(false);
-        setAccessToken(null);
+        // setAccessToken(null);
         localStorage.removeItem('username')
       }
     })
@@ -47,17 +47,17 @@ function App() {
   }
 
   // Throw an error if the response is not good.
-  function handleError(response) {
+  const handleError = useCallback((response) => {
     if (!response.ok) {
       throw Error(response.status)
     } else {
       setFailure('')
       return response
     }
-  }
+  }, [setFailure])
 
   // API post method
-  async function POSTToAPI(method, route, auth_headers, body) {
+  const POSTToAPI = useCallback(async (method, route, auth_headers, body) => {
     setLoading(true)
     // Set the headers
     const headers = {'Content-Type': 'application/x-www-form-urlencoded'}
@@ -77,12 +77,12 @@ function App() {
     .catch(error => {setFailure('Something went wrong connecting to our servers, please try again. HTTP ' + error.message)})
     setLoading(false)
     return response
-  }
+  }, [handleError, API_ROOT])
 
   // Keep the token in a variable in case it is needed (probably wont be soon - replace with a function like below)
-  useEffect(() => {
-    setAccessToken(localStorage.getItem('login_token'))
-  }, [loggedIn])
+  // useEffect(() => {
+  //   setAccessToken(localStorage.getItem('login_token'))
+  // }, [loggedIn])
   // Proabbly less memory intensive and a drop in replacment.
   // const accessToken = () => {localStorage.getItem('login_token')}
 

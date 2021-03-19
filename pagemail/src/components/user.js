@@ -1,21 +1,21 @@
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { Container, Form, Row, Col } from "react-bootstrap";
 import { LoadingButton } from './loading';
 
 export function UserView(props) {
+    const profileCall = props.profileCall;
     const [userInfo, setUserInfo] = useState(null);
-
-    const loadInformation = () => {
+    const loadInformation = useCallback(() => {
         const fetchProfile = async () => {
-            const response = await props.profileCall("GET", "/user/self", true, null)
+            const response = await profileCall("GET", "/user/self", true, null)
             setUserInfo(response ? response : null)
         }
         fetchProfile()
+    }, [profileCall])
 
-    }
     useEffect(() => {
         loadInformation()
-    }, [])
+    }, [loadInformation])
     
     return (
         <>
