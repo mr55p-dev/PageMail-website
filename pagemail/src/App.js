@@ -5,9 +5,10 @@ import { Navigation } from './components/navigation.js';
 import { LoginPage } from './components/login';
 import { SignUp } from './components/signup';
 import { SavedPageView } from './components/pages';
+import { SavePageView } from './components/savePage';
 import { UserView } from './components/user';
 import { Footer } from './components/footer';
-import { Alert, Button } from 'react-bootstrap';
+import { Alert, Button, Container } from 'react-bootstrap';
 
 function App() {
   // const [accessToken, setAccessToken] = useState(null);
@@ -16,6 +17,7 @@ function App() {
   const [prefillEmail, setPrefillEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [failure, setFailure] = useState('');
+  const [success, setSuccess] = useState('');
   const API_ROOT = process.env.REACT_APP_API_ROOT;
 
   // Set up a global "loading" property and have all the "setLoading" logic and try catch blocks in
@@ -47,9 +49,10 @@ function App() {
   }
 
   // Throw an error if the response is not good.
-  const handleError = useCallback((response) => {
+  const handleError = useCallback(async (response) => {
     if (!response.ok) {
-      throw Error(response.status)
+      const errormsg = await response.json()
+      throw Error(errormsg.detail)
     } else {
       setFailure('')
       return response
@@ -74,7 +77,7 @@ function App() {
     )
     .then(handleError)
     .then(response => response.json())
-    .catch(error => {setFailure('Something went wrong connecting to our servers, please try again. HTTP ' + error.message)})
+    .catch(error => {console.log(error);setFailure('Something went wrong: ' + error.message)})
     setLoading(false)
     return response
   }, [handleError, API_ROOT])
@@ -89,12 +92,21 @@ function App() {
   return (
     <div className="App">
       <Navigation loggedIn={loggedIn} />
-      <Alert
-        show={(failure !== '')}
-        variant="warning"
-        onClose={() => setFailure('')}
-        dismissible
-        transition>{failure}</Alert>
+      <Container fluid className="my-1">
+        <Alert
+          show={(failure !== '')}
+          variant="warning"
+          onClose={() => setFailure('')}
+          dismissible
+          transition>{failure}</Alert>
+        <Alert
+          show={(success !== '')}
+          variant="success"
+          onClose={() => setSuccess('')}
+          dismissible
+          transition>{success}</Alert>
+      </Container>
+
       <Router>
       {redirect ? <Redirect to={redirect} /> : null}
         <Switch>
@@ -123,6 +135,15 @@ function App() {
               loading={loading}
               pageCall={POSTToAPI} />
             : <p>Not logged in</p>}
+          </Route>
+          <Route path="/save">
+              {loggedIn
+              ? <SavePageView
+              loading={loading}
+              success={setSuccess}
+              failure={setFailure}
+              saveCall={POSTToAPI} />
+              : <p>Not logged in</p>}
           </Route>
           <Route path="/user">
             {loggedIn
