@@ -13,13 +13,13 @@ function Page(props) {
                     <Card.Text className="text-overflow">
                         {props.description}
                         <Row className="my-auto">
-                            <Col xl={4} sm={12} className="mt-1">
-                                <Button block variant="warning" onClick={() => {}}>Delete</Button>
+                            <Col xl={6} sm={12} className="mt-1">
+                                <Button block variant="warning" disabled onClick={() => {}}>Delete</Button>
                             </Col>
-                            <Col xl={4} sm={12} className="mt-1">
+                            {/* <Col xl={4} sm={12} className="mt-1">
                                 <Button block variant="info" onClick={() => {}}>Mark Read</Button>
-                            </Col>
-                            <Col xl={4} sm={12} className="mt-1">
+                            </Col> */}
+                            <Col xl={6} sm={12} className="mt-1">
                                 <Button block variant="primary" onClick={() => window.open(props.url)}>Open</Button>
                             </Col>
                         </Row>

@@ -15,7 +15,8 @@ const submitForm = async (event) => {
     if (data) {
       localStorage.setItem('login_token', data.token.access_token);
       props.loginStatus(true);
-      props.redirect('/user')
+      props.redirect('/user');
+      props.success("Success - Check your inbox for a confirmation email!")
     }
   }
 

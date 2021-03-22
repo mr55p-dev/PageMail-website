@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react"
-import { Container, Form, Row, Col } from "react-bootstrap";
+import { Container, Form, Row, Col, Button } from "react-bootstrap";
 import { LoadingButton } from './loading';
 
 export function UserView(props) {
@@ -36,7 +36,14 @@ export function UserView(props) {
                                     <Form.Control type="email" readOnly defaultValue={userInfo ? userInfo.email : ""} />
                                 </Col>
                             </Form.Group>
-                        <LoadingButton loading={props.loading} reloadCallback={loadInformation} />
+                            <Row>
+                                <Col>
+                                    <Button block variant="warning" onClick={props.signOut}>Sign out</Button>
+                                </Col>
+                                <Col>
+                                    <LoadingButton block={true} loading={props.loading} reloadCallback={loadInformation} />
+                                </Col>
+                            </Row>
                         </Form>
                     </Container>
                 </Col>

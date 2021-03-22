@@ -1,14 +1,15 @@
 import './App.css';
 import { useCallback, useEffect, useState } from 'react';
 import { HashRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
+import { Alert, Button, Container } from 'react-bootstrap';
 import { Navigation } from './components/navigation.js';
+import { HomeView } from './components/home.js'
 import { LoginPage } from './components/login';
 import { SignUp } from './components/signup';
 import { SavedPageView } from './components/pages';
 import { SavePageView } from './components/savePage';
 import { UserView } from './components/user';
 import { Footer } from './components/footer';
-import { Alert, Button, Container } from 'react-bootstrap';
 
 function App() {
   // const [accessToken, setAccessToken] = useState(null);
@@ -45,6 +46,7 @@ function App() {
   const signOut = () => {
     localStorage.removeItem('login_token');
     setLoggedIn(false);
+    setSuccess("Signed out.")
     setRedirect('/');
   }
 
@@ -127,6 +129,7 @@ function App() {
               signupCall={POSTToAPI}
               redirect={setRedirect}
               loginStatus={setLoggedIn}
+              success={setSuccess}
               prefillEmail={prefillEmail} />}
           </Route>
           <Route path="/pages">
@@ -149,15 +152,17 @@ function App() {
             {loggedIn
             ? <UserView
               loading={loading}
+              signOut={signOut}
               profileCall={POSTToAPI} />
             : <p>Not logged in.</p>}
           </Route>
           <Route path="/signout">
-            <p>Click to sign out</p>
-            <Button onClick={signOut}>Sign out.</Button>
+            <Container>
+              <Button onClick={signOut}>Sign out.</Button>
+            </Container>
           </Route>
           <Route path="/">
-            <h1>Home</h1>
+              <HomeView />
           </Route>
         </Switch>
       </Router>
