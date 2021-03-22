@@ -10,6 +10,7 @@ import { SavedPageView } from './components/pages';
 import { SavePageView } from './components/savePage';
 import { UserView } from './components/user';
 import { Footer } from './components/footer';
+import { GetStartedView } from './components/getStarted';
 
 function App() {
   // const [accessToken, setAccessToken] = useState(null);
@@ -165,11 +166,9 @@ function App() {
               profileCall={POSTToAPI} />
             : <p>Not logged in.</p>}
           </Route>
-          {/* <Route path="/signout">
-            <Container>
-              <Button onClick={signOut}>Sign out.</Button>
-            </Container>
-          </Route>*/}
+          <Route path="/getstarted">
+            <GetStartedView />
+          </Route>
           <Route path="/">
               <HomeView />
           </Route>

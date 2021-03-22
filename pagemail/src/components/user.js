@@ -81,16 +81,25 @@ export function UserView(props) {
                 <Col xl={4} md={8} xs={12} className="mx-auto">
                     <Container color="primary" className="form-container bg-active">
                         <Form id="infoForm">
-                            <Form.Group as={Row} controlId="formBasicEmail" name="infoName" id="signup_email">
-                                <Form.Label column sm={2}>Name</Form.Label>
-                                <Col sm={10}>
+                            <Form.Group as={Row} controlId="formBasicEmail" name="infoName" id="infoName">
+                                <Form.Label column sm={4}>Name</Form.Label>
+                                <Col sm={8}>
                                     <Form.Control type="text" readOnly={true} defaultValue={userInfo ? userInfo.name : ""} />
                                 </Col>
                             </Form.Group>
-                            <Form.Group as={Row} controlId="formBasicEmail" name="infoEmail" id="signup_email">
-                                <Form.Label column sm={2}>Email address</Form.Label>
-                                <Col sm={10}>
+                            <Form.Group as={Row} controlId="formBasicEmail" name="infoEmail" id="infoEmail">
+                                <Form.Label column sm={4}>Email address</Form.Label>
+                                <Col sm={8}>
                                     <Form.Control type="email" readOnly defaultValue={userInfo ? userInfo.email : ""} />
+                                </Col>
+                            </Form.Group>
+                            <Form.Group as={Row} controlId="formBasicToken" name="infoToken" id="infoToken">
+                                <Form.Label column sm={4}>API token</Form.Label>
+                                <Col className="mr-0" sm={4}>
+                                    <Form.Control type="text" readOnly defaultValue={userInfo ? userInfo.token : ""} />
+                                </Col>
+                                <Col className="ml-0" sm={4}>
+                                    <Button block variant="secondary" onClick={() => {navigator.clipboard.writeText(userInfo.token); props.success("Copied!")}}>Copy</Button>
                                 </Col>
                             </Form.Group>
                             <Row>
