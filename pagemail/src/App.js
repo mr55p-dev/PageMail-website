@@ -1,7 +1,7 @@
 import './App.css';
 import { useCallback, useEffect, useState } from 'react';
 import { HashRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
-import { Alert, Button, Container } from 'react-bootstrap';
+import { Alert, Container } from 'react-bootstrap';
 import { Navigation } from './components/navigation.js';
 import { HomeView } from './components/home.js'
 import { LoginPage } from './components/login';
@@ -17,6 +17,7 @@ function App() {
   const [redirect, setRedirect] = useState(null);
   const [prefillEmail, setPrefillEmail] = useState('');
   const [loading, setLoading] = useState(false);
+  const [danger, setDanger] = useState('');
   const [failure, setFailure] = useState('');
   const [success, setSuccess] = useState('');
   const API_ROOT = process.env.REACT_APP_API_ROOT;
@@ -96,6 +97,12 @@ function App() {
       <Navigation loggedIn={loggedIn} />
       <Container fluid className="my-1">
         <Alert
+          show={(danger !== '')}
+          variant="danger"
+          onClose={() => setDanger('')}
+          dismissible
+          transition>{danger}</Alert>
+        <Alert
           show={(failure !== '')}
           variant="warning"
           onClose={() => setFailure('')}
@@ -136,6 +143,7 @@ function App() {
             {loggedIn
             ? <SavedPageView
               loading={loading}
+              danger={setDanger}
               pageCall={POSTToAPI} />
             : <p>Not logged in</p>}
           </Route>
@@ -156,11 +164,11 @@ function App() {
               profileCall={POSTToAPI} />
             : <p>Not logged in.</p>}
           </Route>
-          <Route path="/signout">
+          {/* <Route path="/signout">
             <Container>
               <Button onClick={signOut}>Sign out.</Button>
             </Container>
-          </Route>
+          </Route>*/}
           <Route path="/">
               <HomeView />
           </Route>

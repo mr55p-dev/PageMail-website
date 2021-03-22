@@ -14,7 +14,12 @@ function Page(props) {
                         {props.description}
                         <Row className="my-auto">
                             <Col xl={6} sm={12} className="mt-1">
-                                <Button block variant="warning" disabled onClick={() => {}}>Delete</Button>
+                                <Button
+                                block
+                                data-id={props.id}
+                                data-url={props.url}
+                                variant="warning" 
+                                onClick={e => props.deleteCallback(e.target.dataset)}>Delete</Button>
                             </Col>
                             {/* <Col xl={4} sm={12} className="mt-1">
                                 <Button block variant="info" onClick={() => {}}>Mark Read</Button>
@@ -45,6 +50,16 @@ export function SavedPageView(props) {
         fetchedPages();
     }, [pageCall])
 
+    const deletePage = async (page) => {
+        const form = new URLSearchParams();
+        form.append("id", page.id);
+        const response = await pageCall("DELETE", "/page/delete", true, form)
+        if (response) {
+            props.danger("Page " + page.url + " deleted.")
+            loadPages()
+        }
+    }
+
     useEffect(() => {
         loadPages()
     }, [loadPages])
@@ -54,7 +69,14 @@ export function SavedPageView(props) {
         <Container fluid className="cardDeckContainer mx-auto">
             <CardDeck>
             {(pages !== [])
-            ? pages.map(item => (<Page title={item.title} url={item.url} date={item.date_added} description={item.description} key={item.id} />))
+            ? pages.map(item => (<Page
+                title={item.title}
+                id={item.id}
+                url={item.url}
+                date={item.date_added} 
+                description={item.description} 
+                deleteCallback={deletePage}
+                key={item.id} />))
             : null}
             </CardDeck>
             <LoadingButton loading={props.loading} reloadCallback={loadPages} />
