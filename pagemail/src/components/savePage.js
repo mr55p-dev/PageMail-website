@@ -23,7 +23,7 @@ export function SavePageView(props) {
                     <Form id="loginForm" onSubmit={submitForm}>
                         <Form.Group controlId="formBasicEmail" name="signup_email" id="signup_email">
                             <Form.Label>Page address</Form.Label>
-                            <Form.Control type="text" defaultValue="https://" />
+                            <Form.Control type="url" defaultValue="https://" />
                         </Form.Group>
                         <Row>
                             <Col>

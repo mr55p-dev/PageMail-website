@@ -160,6 +160,7 @@ function App() {
             {loggedIn
             ? <UserView
               loading={loading}
+              success={setSuccess}
               signOut={signOut}
               profileCall={POSTToAPI} />
             : <p>Not logged in.</p>}

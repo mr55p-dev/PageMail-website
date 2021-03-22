@@ -53,6 +53,7 @@ export function SavedPageView(props) {
     const deletePage = async (page) => {
         const form = new URLSearchParams();
         form.append("id", page.id);
+
         const response = await pageCall("DELETE", "/page/delete", true, form)
         if (response) {
             props.danger("Page " + page.url + " deleted.")

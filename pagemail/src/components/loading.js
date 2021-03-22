@@ -5,7 +5,7 @@ export function LoadingButton(props) {
         <>
         <Button
         block = {props.block}
-        variant="primary"
+        variant={props.variant ? props.variant :"primary"}
         disabled={props.loading}
         onClick={props.reloadCallback}>
             {props.loading
