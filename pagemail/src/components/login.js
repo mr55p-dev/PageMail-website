@@ -4,7 +4,6 @@ export function LoginPage(props) {
     const submitForm = async (event) => {
         event.preventDefault();
         // Construct form
-        console.log(event)
         const form = new URLSearchParams()
         form.append("username", event.target.form[0].value)
         form.append("password", event.target.form[1].value)
