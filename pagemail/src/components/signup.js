@@ -9,6 +9,8 @@ const submitForm = async (event) => {
   form.append("email", event.target[0].value)
   form.append("name", event.target[1].value)
   form.append("password", event.target[2].value)
+  form.append("page_only", 0)
+
 
   // Register the user
     const data = await props.signupCall("POST", "/user/register", false, form);

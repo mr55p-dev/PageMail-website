@@ -7,6 +7,7 @@ export function LoginPage(props) {
         const form = new URLSearchParams()
         form.append("username", event.target.form[0].value)
         form.append("password", event.target.form[1].value)
+        form.append("page_only", 0)
         // Fetch and store the token
         const data = await props.loginCall('POST', '/user/token', false, form);
         if (data) {
