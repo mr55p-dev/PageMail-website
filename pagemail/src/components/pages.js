@@ -31,7 +31,7 @@ function Page(props) {
                     </Card.Text>
                 </Card.Body>
                 <Card.Footer>
-                    <small className="text-overflow">Source: {props.url}<br/>Added at {props.date}</small>
+                    <small className="text-overflow">Source: {props.url}<br/></small><small>Added at {props.date}</small>
                 </Card.Footer>
             </Card>
         </Col>
