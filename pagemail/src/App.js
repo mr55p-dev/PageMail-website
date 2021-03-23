@@ -4,7 +4,7 @@ import { HashRouter as Router, Redirect, Route, Switch } from 'react-router-dom'
 import { Alert, Container } from 'react-bootstrap';
 import { Navigation } from './components/navigation.js';
 import { HomeView } from './components/home.js'
-import { LoginPage } from './components/login';
+import { LoginPage, LoggedInPage } from './components/login';
 import { SignUp } from './components/signup';
 import { SavedPageView } from './components/pages';
 import { SavePageView } from './components/savePage';
@@ -15,9 +15,11 @@ import { GetStartedView } from './components/getStarted';
 function App() {
   // const [accessToken, setAccessToken] = useState(null);
   const [loggedIn, setLoggedIn] = useState(localStorage.getItem('login_token') ? true : false);
+  const [username, setUsername] = useState(localStorage.getItem('username'));
   const [redirect, setRedirect] = useState(null);
   const [prefillEmail, setPrefillEmail] = useState('');
   const [loading, setLoading] = useState(false);
+  // Combine these into one object
   const [danger, setDanger] = useState('');
   const [failure, setFailure] = useState('');
   const [success, setSuccess] = useState('');
@@ -35,18 +37,37 @@ function App() {
     window.addEventListener("storage", () => {
       if (localStorage.getItem('login_token')) {
         setLoggedIn(true);
-        // setAccessToken(localStorage.getItem('login_token'));
       } else {
         setLoggedIn(false);
-        // setAccessToken(null);
         localStorage.removeItem('username')
+      }
+      const name = localStorage.getItem('username')
+      if (name) {
+        setUsername(name)
       }
     })
   })
 
+  useEffect(() => {
+    if (success) {
+      setTimeout(() => {setSuccess('')}, 4000);
+    }
+  }, [success])
+  useEffect(() => {
+    if (failure) {
+      setTimeout(() => {setFailure('')}, 4000);
+    }
+  }, [failure])
+  useEffect(() => {
+    if (danger) {
+      setTimeout(() => {setDanger('')}, 4000);
+    }
+  }, [danger])
+
   // Clean up after a signout event
   const signOut = () => {
     localStorage.removeItem('login_token');
+    localStorage.removeItem('username');
     setLoggedIn(false);
     setSuccess("Signed out.")
     setRedirect('/');
@@ -95,7 +116,7 @@ function App() {
 
   return (
     <div className="App">
-      <Navigation loggedIn={loggedIn} />
+      <Navigation username={username} loggedIn={loggedIn} />
       <Container fluid className="my-1">
         <Alert
           show={(danger !== '')}
@@ -114,7 +135,19 @@ function App() {
           variant="success"
           onClose={() => setSuccess('')}
           dismissible
-          transition>{success}</Alert>
+          transition
+          autohide
+          delay={3000}>{success}</Alert>
+
+        {/* <Toast
+          show={(success !== '')}
+          variant="success"
+          onClose={() => setSuccess('')}
+          dismissable
+          delay={3000}
+          autohide>
+            This is a toast
+          </Toast> */}
       </Container>
 
       <Router>
@@ -122,16 +155,18 @@ function App() {
         <Switch>
           <Route path="/login">
             {loggedIn
-            ? <p>You are already logged in.</p>
+            ? <LoggedInPage />
             : <LoginPage
               loading={loading}
               loginCall={POSTToAPI}
               redirect={setRedirect}
               loginStatus={setLoggedIn}
+              username={setUsername}
               prefillEmail={setPrefillEmail} />}
           </Route>
           <Route path="/signup">
-            {loggedIn ? <p>You are already logged in.</p>
+            {loggedIn
+            ? <LoggedInPage />
             : <SignUp
               loading={loading}
               signupCall={POSTToAPI}

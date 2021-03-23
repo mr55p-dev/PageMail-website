@@ -12,6 +12,8 @@ export function LoginPage(props) {
         const data = await props.loginCall('POST', '/user/token', false, form);
         if (data) {
             localStorage.setItem("login_token", data.access_token);
+            localStorage.setItem("username", data.user.name);
+            props.username("data.user.name")
             props.loginStatus(true);
             props.redirect('/pages')
         }
@@ -61,5 +63,14 @@ export function LoginPage(props) {
         </Row>
     </Container>
     </>
+    )
+}
+
+export function LoggedInPage(props) {
+    return(
+        <Container>
+            <h4 className="display-4">You are already logged in</h4>
+            <p className="lead">Please use the navigation at the top to find your pages, save a new page or view your account information.</p>
+        </Container>
     )
 }

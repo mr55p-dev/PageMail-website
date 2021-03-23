@@ -8,30 +8,30 @@ function Page(props) {
             <Card>
                 <Card.Body className="flex-fill">
                     <Card.Title className="text-center text-overflow">{props.title ? props.title : props.url}</Card.Title>
-                    {/* Make this work */}
-                    <Card.Subtitle className="text-center text-overflow">{props.url}</Card.Subtitle>
                     <Card.Text className="text-overflow">
-                        {props.description}
+                        {props.description
+                        ? props.description
+                        : "A description of this site could not be found."}
                         <Row className="my-auto">
-                            <Col xl={6} sm={12} className="mt-1">
-                                <Button
-                                block
-                                data-id={props.id}
-                                data-url={props.url}
-                                variant="warning" 
-                                onClick={e => props.deleteCallback(e.target.dataset)}>Delete</Button>
-                            </Col>
                             {/* <Col xl={4} sm={12} className="mt-1">
                                 <Button block variant="info" onClick={() => {}}>Mark Read</Button>
                             </Col> */}
                             <Col xl={6} sm={12} className="mt-1">
                                 <Button block variant="primary" onClick={() => window.open(props.url)}>Open</Button>
                             </Col>
+                            <Col xl={6} sm={12} className="mt-1">
+                                <Button
+                                block
+                                data-id={props.id}
+                                data-url={props.url}
+                                variant="warning"
+                                onClick={e => props.deleteCallback(e.target.dataset)}>Delete</Button>
+                            </Col>
                         </Row>
                     </Card.Text>
                 </Card.Body>
                 <Card.Footer>
-                    <small>Added at {props.date}</small>
+                    <small className="text-overflow">Source: {props.url}<br/>Added at {props.date}</small>
                 </Card.Footer>
             </Card>
         </Col>
@@ -80,7 +80,11 @@ export function SavedPageView(props) {
                 key={item.id} />))
             : null}
             </CardDeck>
-            <LoadingButton loading={props.loading} reloadCallback={loadPages} />
+            <Row className="justify-content-center mx-0 my-1">
+                <Col lg={2} sm={4} xs={12}>
+                    <LoadingButton block loading={props.loading} reloadCallback={loadPages} />
+                </Col>
+            </Row>
         </Container>
 
         </>
